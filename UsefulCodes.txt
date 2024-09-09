@@ -1,0 +1,9 @@
+1. Bitwise Operator XOR:
+x ^ x = 0
+x ^ 0 = 1
+Uses: a.) Swapping variables without creating a temp variable.
+      b.) Finding unique value.
+
+2. Flattening a 2-D matrix:
+matrix = 2-D matrix
+flat_list = [item for row in matrix for item in row]
