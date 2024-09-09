@@ -7,3 +7,6 @@ Uses: a.) Swapping variables without creating a temp variable.
 2. Flattening a 2-D matrix:
 matrix = 2-D matrix
 flat_list = [item for row in matrix for item in row]
+
+3. Transpose of a 2-D matrix:
+transposed = [[row[i] for row in matrix] for i in range(number of columns of matrix)]
