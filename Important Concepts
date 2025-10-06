@@ -1,0 +1,25 @@
+1. https://discourse.opengenus.org/t/greedy-approach-to-find-a-single-maximal-clique-in-o-v-2-time-complexity/3476
+The largest clique in a graph is a clique (a set of vertices where every vertex is connected to every other vertex) containing the maximum number of vertices possible in that graph, also known as the maximum clique or the clique number. Finding the maximum clique is a computationally difficult problem, classified as NP-complete, and algorithms like Bron-Kerbosch are used to find maximal cliques, from which the maximum clique can be identified. 
+What is a clique?
+A clique is a subgraph where every pair of distinct vertices is connected by an edge. 
+What is the largest clique?
+The largest clique is the clique with the most vertices. 
+Key concepts
+
+    Maximum Clique: A complete subgraph that has the largest number of vertices compared to any other clique in the graph. 
+
+Maximal Clique: A clique that cannot be extended by adding another vertex from the graph and still remain a clique. 
+Clique Number: The size (number of vertices) of a maximum clique in a given graph. 
+
+Relationship between maximal and maximum cliques
+
+    A maximum clique is always a maximal clique. 
+
+However, a maximal clique is not necessarily a maximum clique. A graph can have many maximal cliques of different sizes, and only the largest among them is the maximum clique. 
+
+Finding the largest clique
+
+    The problem of finding the maximum clique is an NP-complete problem, meaning there is no known efficient algorithm for all cases. 
+
+Algorithms exist to find the maximum clique, such as the Bron-Kerbosch algorithm for finding all maximal cliques, from which the maximum one can be determined. 
+Wolfram MathWorld also describes how to find all maximum cliques using the Wolfram Language's FindClique function. 
