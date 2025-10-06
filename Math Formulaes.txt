@@ -1,0 +1,3 @@
+1. Area of a triangle when it's three vertices are given:
+
+Area = ½ |x₁(y₂ – y₃) + x₂(y₃ – y₁) + x₃(y₁ – y₂)|
