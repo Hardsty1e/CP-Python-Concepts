@@ -1,0 +1,143 @@
+What is a list comprehension?
+
+A list comprehension is a compact way to create a list from an iterable. 
+It replaces a common for-loop pattern where you build a list by appending values. 
+They are concise, often faster, and very readable when kept simple.
+
+General syntax:
+[ expression for item in iterable if condition ]
+
+expression — what each element in the new list will be (can use item).
+for item in iterable — loop over values.
+if condition — optional filter to include only some items.
+
+You can have multiple for clauses (nested loops) and multiple if filters:
+[ expr for a in A for b in B if cond1(a,b) if cond2(b) ]
+
+How to write one step-by-step
+1. Write the loop version first (clear thinking).
+2. Identify the expression you append to the list — that becomes the expression.
+3. Write the for clause(s)` exactly as in the loop, in the same order.
+4. Add any if filter(s)` that control whether you append.
+5. Test and, if long, break into multiple lines (use parentheses).
+
+Example A — Single loop (squares)
+
+Loop version:
+squares = []
+for x in range(10):
+    squares.append(x*x)
+
+List comprehension:
+squares = [x*x for x in range(10)]
+# -> [0, 1, 4, 9, ..., 81]
+
+Step-by-step:
+* expression: x*x
+* loop: for x in range(10)
+* no filter → simply combine.
+
+Example B — Single loop + filter (only even squares)
+
+Loop version:
+evensq = []
+for x in range(10):
+    if x % 2 == 0:
+        evensq.append(x*x)
+
+Comprehension:
+evensq = [x*x for x in range(10) if x % 2 == 0]
+# -> [0, 4, 16, 36, 64]
+
+Note: The if goes after the for.
+
+Example C — Conditional expression (ternary) inside comprehension
+
+If you want each element to depend on a condition (choose one of two expressions), use X if cond else Y as the expression:
+vals = [x if x % 2 else -x for x in range(6)]
+# -> [0, 1, -2, 3, -4, 5]
+
+Here the ternary is the expression part.
+
+⚠️ Important: expression if condition else other goes before the for.
+A filter if cond goes after the for.
+
+Example D — Two loops (cartesian product / nested loops)
+
+Loop version:pairs = []
+for a in "ab":
+    for b in range(3):
+        pairs.append((a, b))
+
+Comprehension:
+pairs = [(a, b) for a in "ab" for b in range(3)]
+# -> [('a', 0), ('a', 1), ('a', 2), ('b', 0), ('b', 1), ('b', 2)]
+
+Order matters: for a in A for b in B corresponds to:
+for a in A:
+    for b in B:
+        ...
+So the leftmost for is the outer loop.
+
+Example E — Flatten a 2D list (matrix)
+Given matrix = [[1,2],[3,4]]
+
+Loop version:
+flat = []
+for row in matrix:
+    for val in row:
+        flat.append(val)
+
+Comprehension:
+flat = [val for row in matrix for val in row]
+# -> [1, 2, 3, 4]
+
+Example F — Nested comprehension that creates a matrix
+Create multiplication table 1..3:
+
+table = [[i*j for j in range(1, 4)] for i in range(1, 4)]
+# -> [[1, 2, 3], [2, 4, 6], [3, 6, 9]]
+Notice for j is inside and for i is outside — mirrors nested loops.
+
+Example G — Using enumerate / zip
+You can use any iterable:
+
+Enumerate example (index-aware):
+s = "abcd"
+indexed = [(i, ch) for i, ch in enumerate(s)]
+# -> [(0,'a'), (1,'b'), (2,'c'), (3,'d')]
+
+Zip example:
+a = [1,2,3]; b = [10,20,30]
+sums = [x+y for x, y in zip(a, b)]
+# -> [11, 22, 33]
+
+Example H — Dict & Set comprehensions and Generator expressions
+
+Dict comprehension:
+square_map = {x: x*x for x in range(5)}
+# -> {0:0, 1:1, 2:4, 3:9, 4:16}
+
+Set comprehension:
+letters = {c for c in "banana"}
+# -> {'b', 'a', 'n'}
+
+Generator expression (lazy, use parentheses):
+gen = (x*x for x in range(10))
+# iterate with next(gen) or for x in gen:
+
+Performance / style notes:
+1. Speed: comprehensions are often slightly faster than equivalent for + append.
+2. Memory: list comprehensions build the whole list. If you only need to iterate, use a generator expression ( … ) to save memory.
+3. Readability: keep comprehensions short and simple. If it gets long or has many nested loops/conditions, prefer a named loop — readability > cleverness in contests that require debugging.
+4. Side effects: don’t use comprehensions for side effects (like printing). Use normal loops for side effects.
+5. Scope: In Python 3, the loop variable in a list comprehension does not leak into the surrounding scope (unlike Python 2).
+
+Quick cheatsheet:
+* Basic: [expr for x in it]
+* With filter: [expr for x in it if cond]
+* With ternary in expression: [A if cond else B for x in it]
+* Nested: [expr for a in A for b in B]
+* Dict: {k: v for ...}
+* Set: {x for ...}
+* Generator: (x for ...) (lazy)
