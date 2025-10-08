@@ -1,4 +1,4 @@
-1. The largest clique in a graph is a clique (a set of vertices where every vertex is connected to every other vertex) containing 
+The largest clique in a graph is a clique (a set of vertices where every vertex is connected to every other vertex) containing 
 the maximum number of vertices possible in that graph, also known as the maximum clique or the clique number. Finding the maximum 
 clique is a computationally difficult problem, classified as NP-complete, and algorithms like Bron-Kerbosch are used to find 
 maximal cliques, from which the maximum clique can be identified. 
@@ -27,3 +27,151 @@ a. The problem of finding the maximum clique is an NP-complete problem, meaning 
 b. Algorithms exist to find the maximum clique, such as the Bron-Kerbosch algorithm for finding all maximal cliques, from which the 
 maximum one can be determined. 
 c. Wolfram MathWorld also describes how to find all maximum cliques using the Wolfram Language's FindClique function. 
+--------------------------------------------------------------------------------------------------------------------------------------
+
+Bitmasking is the right tool for the kind of “check all subsets” problem.
+
+🧠 Step 1: What is a bitmask?
+
+A bitmask is just an integer that represents a subset using its binary digits (bits).
+
+Each bit position corresponds to an element (in this case, a parliament member).
+
+Bit 1 → member is included in the subset
+
+Bit 0 → member is not included
+
+For example, if N = 5 (members 1–5):
+
+Bitmask (binary)	Subset	Decimal value
+00001	{1}	1
+00010	{2}	2
+00101	{1,3}	5
+11100	{3,4,5}	28
+11111	{1,2,3,4,5}	31
+
+⚙️ Step 2: How to iterate through all subsets
+
+You can use a simple for loop:
+for bit in range(1, 1 << N):   # 1 to 2^N - 1
+    subset = []
+    for i in range(N):
+        if bit & (1 << i):     # if the i-th bit is ON
+            subset.append(i + 1)  # members are 1-indexed
+
+Excellent 👌 — visualization is the secret weapon for mastering bitmask problems.
+Once you can see subsets in binary form, everything — loops, masks, and logic — becomes intuitive.
+
+Let’s build that intuition step-by-step.
+
+🧩 Step 1: Represent subsets visually
+
+Imagine you have N = 4 members: A, B, C, D
+They correspond to bits (from right to left):
+
+Bit position	3	2	1	0
+Member name	  D	C	B	A
+
+Now, each integer from 1 to 2⁴ - 1 = 15 represents a subset:
+
+Decimal	Binary	Subset
+1	0001	{A}
+2	0010	{B}
+3	0011	{A, B}
+4	0100	{C}
+5	0101	{A, C}
+6	0110	{B, C}
+7	0111	{A, B, C}
+8	1000	{D}
+9	1001	{A, D}
+15	1111	{A, B, C, D}
+
+🧠 Step 2: Think of bit as a pattern selector
+
+Let’s take bit = 13.
+In binary → 1101.
+
+Member	D	C	B	A
+Bit	1	1	0	1
+Include?	✅	✅	❌	✅
+
+→ Subset = {A, C, D}
+
+So when the loop runs:
+for i in range(N):
+    if bit & (1 << i):
+        # This member is included
+
+you’re literally scanning the binary digits of the number.
+
+🎯 Step 3: How to debug subsets in your head
+
+Let’s say bit = 5 → binary 0101.
+
+Rightmost bit (A): 1 → include A
+
+Next bit (B): 0 → skip
+
+Next (C): 1 → include C
+
+Next (D): 0 → skip
+
+→ Subset = {A, C}
+
+👉 Trick: read binary from right to left (bit 0 = first element).
+
+🧮 Step 4: Understanding (1 << N) and (1 << i)
+
+These are the most important shifts.
+
+Expression	Meaning	Example
+1 << N	gives 2ⁿ	If N=4 → 16
+(1 << i)	turns ON the i-th bit	If i=2 → 0100
+
+⚙️ Step 5: Quick paper visualization technique
+
+Draw this mini chart before starting coding:
+i:    3  2  1  0
+bit:  D  C  B  A
+Now, when you see bit = 11 → binary 1011
+→ Subset {A, B, D}
+
+This table helps you read bits as subsets faster during contests.
+
+💡 Step 6: Bitmask tips for contests
+
+a. Loop range: for bit in range(1, 1 << N)
+→ iterates through all non-empty subsets
+
+b. Count bits quickly:
+bin(bit).count('1')
+gives number of 1s = size of subset
+
+c. Pre-check optimization:
+If you only need subsets of size k, skip others:
+if bin(bit).count('1') != k:
+    continue
+
+d. Subset iteration order:
+
+Smallest subsets → lower numbers
+
+Largest subsets → bigger numbers
+
+Reverse iteration helps find largest valid one faster
+
+🧠 Step 7: Your mental model
+
+When you see:
+for bit in range(1, 1 << N):
+
+Visualize this:
+bit = 1  -> 0001 -> {A}
+bit = 2  -> 0010 -> {B}
+bit = 3  -> 0011 -> {A,B}
+bit = 4  -> 0100 -> {C}
+bit = 5  -> 0101 -> {A,C}
+...
+bit = 15 -> 1111 -> {A,B,C,D}
+
+Every iteration = one possible subset = one test case for your logic.
