@@ -9,18 +9,15 @@ A clique is a subgraph where every pair of distinct vertices is connected by an 
 b. What is the largest clique?
 The largest clique is the clique with the most vertices. 
 
-
 Key concepts:
 a. Maximum Clique: A complete subgraph that has the largest number of vertices compared to any other clique in the graph. 
 b. Maximal Clique: A clique that cannot be extended by adding another vertex from the graph and still remain a clique. 
 c. Clique Number: The size (number of vertices) of a maximum clique in a given graph. 
 
-
 Relationship between maximal and maximum cliques:
 a. A maximum clique is always a maximal clique. 
 b. However, a maximal clique is not necessarily a maximum clique. A graph can have many maximal cliques of different sizes, and only 
 the largest among them is the maximum clique. 
-
 
 Finding the largest clique:
 a. The problem of finding the maximum clique is an NP-complete problem, meaning there is no known efficient algorithm for all cases. 
@@ -32,17 +29,12 @@ c. Wolfram MathWorld also describes how to find all maximum cliques using the Wo
 Bitmasking is the right tool for the kind of “check all subsets” problem.
 
 🧠 Step 1: What is a bitmask?
-
 A bitmask is just an integer that represents a subset using its binary digits (bits).
-
 Each bit position corresponds to an element (in this case, a parliament member).
-
 Bit 1 → member is included in the subset
-
 Bit 0 → member is not included
 
 For example, if N = 5 (members 1–5):
-
 Bitmask (binary)	Subset	Decimal value
 00001	{1}	1
 00010	{2}	2
@@ -63,9 +55,7 @@ Excellent 👌 — visualization is the secret weapon for mastering bitmask prob
 Once you can see subsets in binary form, everything — loops, masks, and logic — becomes intuitive.
 
 Let’s build that intuition step-by-step.
-
 🧩 Step 1: Represent subsets visually
-
 Imagine you have N = 4 members: A, B, C, D
 They correspond to bits (from right to left):
 
@@ -73,7 +63,6 @@ Bit position	3	2	1	0
 Member name	  D	C	B	A
 
 Now, each integer from 1 to 2⁴ - 1 = 15 represents a subset:
-
 Decimal	Binary	Subset
 1	0001	{A}
 2	0010	{B}
@@ -87,59 +76,44 @@ Decimal	Binary	Subset
 15	1111	{A, B, C, D}
 
 🧠 Step 2: Think of bit as a pattern selector
-
 Let’s take bit = 13.
 In binary → 1101.
 
 Member	D	C	B	A
 Bit	1	1	0	1
 Include?	✅	✅	❌	✅
-
 → Subset = {A, C, D}
 
 So when the loop runs:
 for i in range(N):
     if bit & (1 << i):
         # This member is included
-
 you’re literally scanning the binary digits of the number.
 
 🎯 Step 3: How to debug subsets in your head
-
 Let’s say bit = 5 → binary 0101.
-
 Rightmost bit (A): 1 → include A
-
 Next bit (B): 0 → skip
-
 Next (C): 1 → include C
-
 Next (D): 0 → skip
-
 → Subset = {A, C}
-
 👉 Trick: read binary from right to left (bit 0 = first element).
 
 🧮 Step 4: Understanding (1 << N) and (1 << i)
-
 These are the most important shifts.
-
 Expression	Meaning	Example
 1 << N	gives 2ⁿ	If N=4 → 16
 (1 << i)	turns ON the i-th bit	If i=2 → 0100
 
 ⚙️ Step 5: Quick paper visualization technique
-
 Draw this mini chart before starting coding:
 i:    3  2  1  0
 bit:  D  C  B  A
 Now, when you see bit = 11 → binary 1011
 → Subset {A, B, D}
-
 This table helps you read bits as subsets faster during contests.
 
 💡 Step 6: Bitmask tips for contests
-
 a. Loop range: for bit in range(1, 1 << N)
 → iterates through all non-empty subsets
 
@@ -153,15 +127,11 @@ if bin(bit).count('1') != k:
     continue
 
 d. Subset iteration order:
-
 Smallest subsets → lower numbers
-
 Largest subsets → bigger numbers
-
 Reverse iteration helps find largest valid one faster
 
 🧠 Step 7: Your mental model
-
 When you see:
 for bit in range(1, 1 << N):
 
