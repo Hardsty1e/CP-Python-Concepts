@@ -1,0 +1,14 @@
+1. Area of a triangle when it's three vertices are given:
+Area = ½ |x₁(y₂ – y₃) + x₂(y₃ – y₁) + x₃(y₁ – y₂)|
+Area = 1/2 ​∣(x2​−x1​)(y3​−y1​)−(x3​−x1​)(y2​−y1​)∣    # Subtracting the first vertex coordinates from the rest
+
+2. a.) Rounding Down to the Nearest Multiple of K:
+This technique is called Floor Rounding. It finds the largest multiple of K that is less than or equal to the original number.
+The Formula:
+Rounded Value=(Original Value//K)×K
+
+b.) Rounding Up to the Nearest Multiple of K:
+This technique is called Ceiling Rounding. It finds the smallest multiple of K that is greater than or equal to the original number.
+The Formula:
+Rounded Value=((Original Value+(K−1))//K)×K
+This formula uses the K−1 offset to "push" the number just past the boundary, forcing the integer division to count one more full interval. (The original time formula used K=5, so the offset was 5−1=4).
