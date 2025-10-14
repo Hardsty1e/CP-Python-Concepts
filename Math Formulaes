@@ -12,3 +12,17 @@ This technique is called Ceiling Rounding. It finds the smallest multiple of K t
 The Formula:
 Rounded Value=((Original Value+(K−1))//K)×K
 This formula uses the K−1 offset to "push" the number just past the boundary, forcing the integer division to count one more full interval. (The original time formula used K=5, so the offset was 5−1=4).
+
+3. The divmod() Function
+The Python built-in function divmod(a, b) is a powerful and efficient way to perform both integer division and calculate the remainder in a single operation.
+
+It takes two numbers, a and b, and returns a tuple containing two values:
+divmod(a,b)=(⌊a/b⌋,a(modb))
+- The first element is the quotient (the result of the floor division, a//b).
+- The second element is the remainder (the result of the modulo operation, a%b).
+
+Use Case in the Code:
+In the given code, divmod is used to convert a large number of minutes into hours and minutes, since there are 60 minutes in an hour.
+Example: If s=455 minutes:
+divmod(455,60)=(7,35)
+This means 455 minutes is 7 full hours and 35 remaining minutes (i.e., 07:35).
