@@ -41,3 +41,12 @@ In simpler terms:
 a. The first row of the original board becomes the last row of the rotated board, but in reverse order.
 b. The last row of the original board becomes the first row of the rotated board, also in reverse order.
 c. Every row is flipped horizontally, and the sequence of the rows is flipped vertically.
+
+How to print matrix in clean format?
+for row in new_matrix:
+    print(*row, sep=" ")
+- Output Loop: Iterates through each row of the newly calculated matrix.
+- print(*row, sep=" "): This is a concise and effective way to print the elements of a list separated by a space.
+- The * operator (splat operator) unpacks the elements of the list row (e.g., ['o', 'o', 'x', 'x']) into separate arguments for the print() function.
+- sep=" " tells the print() function to use a single space as the separator between these arguments.
+- print() automatically adds a newline after each call, ensuring each row is on a new line.
