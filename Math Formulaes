@@ -50,3 +50,10 @@ for row in new_matrix:
 - The * operator (splat operator) unpacks the elements of the list row (e.g., ['o', 'o', 'x', 'x']) into separate arguments for the print() function.
 - sep=" " tells the print() function to use a single space as the separator between these arguments.
 - print() automatically adds a newline after each call, ensuring each row is on a new line.
+
+or 
+
+for row in matrix:
+    # Use str.join() to convert the list of numbers into a single string
+    # with spaces between elements, then print it.
+    print(" ".join(map(str, row)))
