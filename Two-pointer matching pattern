@@ -1,0 +1,133 @@
+🔷 What is the two-pointer matching pattern?
+At a high level:
+* You have two sorted sequences (arrays, lists) A and B.
+* You want to match elements of A with elements of B under a simple constraint (typically an inequality like A[i] ≤ B[j] ≤ A[i] + T, or B[j] ≥ A[i], or |A[i] - B[j]| ≤ D).
+* Each element can usually be used at most once.
+* A greedy strategy that scans both lists once (two pointers) often gives an optimal solution.
+
+Key ingredients:
+- Sort both lists (if not already sorted).
+- Maintain indices i (for A) and j (for B).
+- Move pointers forward based on comparisons and the matching rule.
+- Use each element at most once (advance the pointer for a used element).
+Complexity: O(|A| + |B|) after sorting.
+
+🔶 Why it works (intuitively / proof sketch)
+Two ideas make the greedy correct most of the time:
+* Earliest-first (or smallest-first): If you have to serve earliest demands, using the earliest available supply cannot harm later opportunities — it uses the least flexible supply earliest.
+* Exchange argument: Suppose an optimal solution matches different elements. You can show by swapping matches (exchanging) that you can transform it into the greedy solution without increasing cost, so greedy is optimal.
+This is the backbone of correctness for many matching problems with monotone constraints.
+
+✅ Example 1 — Takoyaki (we already did this)
+- dish_time sorted, cust_time sorted, constraint dish ≤ cust ≤ dish + T.
+- Two pointers (i for dishes, j for customers).
+- If dish too old → i++. If customer too early → impossible. Else serve: i++, j++.
+- Complexity O(n+m). Correct by greedy/earliest-first reasoning.
+
+✅ Example 2 — Assign Cookies (LeetCode 455) — match children and cookies
+Problem: Each child i has greed g[i]. Each cookie j has size s[j]. A child is content if s[j] >= g[i]. One cookie per child. Maximize number of content children.
+
+Two-pointer approach:
+1. Sort greed array g ascending and cookie sizes s ascending.
+2. i = 0 (child), j = 0 (cookie)
+3. While i < len(g) and j < len(s):
+  - If s[j] >= g[i]: assign cookie j to child i → i++, j++ (child satisfied)
+  - Else: j++ (cookie too small for current child, try bigger cookie)
+4. Answer = i (number satisfied)
+
+Why greedy is optimal:
+Serve the least greedy child first with the smallest cookie that satisfies them. If you used a larger cookie on this small child, you'd only reduce chances to satisfy bigger children. Exchange argument: any optimal solution can be modified to match smallest-first.
+
+✅ Example 3 — Boats to Save People (LeetCode 881) — pair people into boats
+Problem: People weights sorted w[]. Each boat can carry 1 or 2 people with total weight ≤ limit. Minimize number of boats.
+
+Two-pointer approach (two-sided):
+1. Sort w.
+2. i = 0 (lightest), j = n-1 (heaviest), boats = 0
+3. While i ≤ j:
+  - If w[i] + w[j] ≤ limit: pair them → i++, j--, boats++
+  - Else: heavy person goes alone → j--, boats++
+
+Why correct:
+Always try to pair the heaviest person with the lightest possible partner. If the lightest can't pair with heaviest, no one can; so heavy must go alone. Exchange argument shows this greedy never uses more boats than optimal.
+
+✅ Example 4 — Minimize sum of absolute differences (match A with B to minimize Σ|A[i]−B[match(i)]|)
+If sizes are equal and you match one-to-one to minimize sum of absolute differences, sort both and match in order:
+* i from 0..n−1 → pair A[i] with B[i]. This is proven by rearrangement inequality. Two-pointer is the zero-complication version.
+
+✅ Example 5 — Matching within tolerance (|A − B| ≤ D)
+Suppose each A[i] can be matched to any B[j] such that |A[i] − B[j]| ≤ D. You want to maximize number of matches.
+
+Two-pointer greedy:
+1. Sort A, B.
+2. i = j = 0, matched = 0
+3. While i < len(A) and j < len(B):
+  - If B[j] < A[i] − D: j++ (B too small)
+  - Else if B[j] > A[i] + D: i++ (A too small / B too big)
+   -Else: match them (i++, j++, matched++)
+This is a generalization of Assign Cookies; same correctness idea.
+
+🔁 Pattern Variations & When to Use Them
+Use two-pointer when:
+* You have two multisets and a monotone matching condition (≤, ≥, |·| ≤ D).
+* Lists can be sorted easily and each item used at most once.
+* Greedy earliest/smallest-first seems natural.
+
+Variants:
+* One pointer from left, one from right (boats problem).
+* Matching with capacities (each supply can serve up to k demands): you may need to track remaining capacity per supply and still greedily move pointers.
+* If an element can be reused multiple times, two-pointer may still apply but with counters.
+
+⚠️ Common Pitfalls
+1. Not sorting: the greedy fails if lists aren’t processed in order.
+2. Wrong pointer movement: deciding which pointer to advance incorrectly breaks correctness.
+3. Off-by-one: especially when using conditions like ≤ vs <.
+4. Reusing items: remember to mark/advance the supply pointer after a match.
+5. Duplicate handling: ties often can be handled arbitrarily, but be consistent.
+
+🧭 Recipe / Pseudocode Template
+This is a canonical template for A (supplies) and B (demands) with condition A[i] ≤ B[j] ≤ A[i] + T (or similar):
+-------------- CODE -------------------
+sort(A); sort(B)
+i = 0   # pointer in A (supplies)
+j = 0   # pointer in B (demands)
+matches = 0
+
+while i < len(A) and j < len(B):
+    if A[i] + T < B[j]:
+        # supply i can't satisfy demand j (it's expired / too small)
+        i += 1
+    elif B[j] < A[i]:
+        # demand j arrived too early (can't be satisfied by current supply)
+        impossible -> break or j += 1 depending on problem
+    else:
+        # supply i satisfies demand j
+        matches += 1
+        i += 1
+        j += 1
+---------------------------------------
+
+For simpler s >= g (cookie problem), use:
+-------------- CODE -------------------
+if s[j] >= g[i]:
+    i += 1; j += 1
+else:
+    j += 1
+---------------------------------------
+
+For two-sided pairing (boats):
+-------------- CODE -------------------
+i = 0; j = n-1
+while i <= j:
+    if w[i] + w[j] <= limit:
+        i += 1; j -= 1; boats += 1
+    else:
+        j -= 1; boats += 1
+---------------------------------------
+
+✅ Final tips to master two-pointer matching
+1. Always sort both arrays if not already sorted.
+2. Decide which pointer to advance on each comparison — practice that logic on examples.
+3. Prove correctness by exchange: show that any optimal matching can be converted to the greedy one without loss.
+4. Practice by hand on small arrays to see pointer behavior and corner cases.
+5. Recognize the pattern: if problem involves pairing under inequality constraints and single use, think two pointers first.
