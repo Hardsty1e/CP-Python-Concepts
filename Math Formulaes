@@ -1,23 +1,19 @@
 1. Area of a triangle when it's three vertices are given:
-
 Area = ½ |x₁(y₂ – y₃) + x₂(y₃ – y₁) + x₃(y₁ – y₂)|
 Area = 1/2 ​∣(x2​−x1​)(y3​−y1​)−(x3​−x1​)(y2​−y1​)∣    # Subtracting the first vertex coordinates from the rest
 
 2. a.) Rounding Down to the Nearest Multiple of K:
-
 This technique is called Floor Rounding. It finds the largest multiple of K that is less than or equal to the original number.
 The Formula:
 Rounded Value=(Original Value//K)×K
 
 b.) Rounding Up to the Nearest Multiple of K:
-
 This technique is called Ceiling Rounding. It finds the smallest multiple of K that is greater than or equal to the original number.
 The Formula:
 Rounded Value=((Original Value+(K−1))//K)×K
 This formula uses the K−1 offset to "push" the number just past the boundary, forcing the integer division to count one more full interval. (The original time formula used K=5, so the offset was 5−1=4).
 
 3. The divmod() Function:
-
 The Python built-in function divmod(a, b) is a powerful and efficient way to perform both integer division and calculate the remainder in a single operation.
 It takes two numbers, a and b, and returns a tuple containing two values:
 divmod(a,b)=(⌊a/b⌋,a(modb))
@@ -31,11 +27,10 @@ divmod(455,60)=(7,35)
 This means 455 minutes is 7 full hours and 35 remaining minutes (i.e., 07:35).
 
 4. Rotation of a matrix by 180∘:
-
 When you rotate a grid 180∘, every element moves to the position that is diagonally opposite its original location.
 If the original board is denoted by C and the rotated board by C′, the transformation is:
-The element at Original Position (i,j) moves to the New Position (3−i,3−j).
-C′[i][j]=C[3−i][3−j]
+The element at Original Position (i,j) moves to the New Position (n−i,n−j).
+C′[i][j]=C[n−i][n−j]
 
 In simpler terms:
 a. The first row of the original board becomes the last row of the rotated board, but in reverse order.
@@ -43,8 +38,10 @@ b. The last row of the original board becomes the first row of the rotated board
 c. Every row is flipped horizontally, and the sequence of the rows is flipped vertically.
 
 How to print matrix in clean format?
+
 for row in new_matrix:
     print(*row, sep=" ")
+
 - Output Loop: Iterates through each row of the newly calculated matrix.
 - print(*row, sep=" "): This is a concise and effective way to print the elements of a list separated by a space.
 - The * operator (splat operator) unpacks the elements of the list row (e.g., ['o', 'o', 'x', 'x']) into separate arguments for the print() function.
@@ -59,7 +56,6 @@ for row in matrix:
     print(" ".join(map(str, row)))
 
 5. Standard 3x3 matrix intialization and multiplication:
-
 def matmul(A, B):
     # 3x3 matrix multiplication mod 10007
     mod = 10007
@@ -73,3 +69,6 @@ def matmul(A, B):
             for k in range(3):
                 result[i][j] = (result[i][j] + A[i][k]*B[k][j]) % mod
     return result
+
+6. Standard Identity Matrix initialization:
+result = [[1 if i == j else 0 for j in range(3)] for i in range(3)]  # Identity matrix
