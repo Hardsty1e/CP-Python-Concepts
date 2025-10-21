@@ -57,3 +57,19 @@ for row in matrix:
     # Use str.join() to convert the list of numbers into a single string
     # with spaces between elements, then print it.
     print(" ".join(map(str, row)))
+
+5. Standard 3x3 matrix intialization and multiplication:
+
+def matmul(A, B):
+    # 3x3 matrix multiplication mod 10007
+    mod = 10007
+    
+    # Initialization
+    result = [[0]*3 for _ in range(3)]
+
+    # Standard multiplication
+    for i in range(3):
+        for j in range(3):
+            for k in range(3):
+                result[i][j] = (result[i][j] + A[i][k]*B[k][j]) % mod
+    return result
